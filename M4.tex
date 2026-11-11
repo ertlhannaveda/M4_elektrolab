@@ -1,0 +1,246 @@
+%=====================================================================%
+% DOCUMENT DEFINITION
+%=====================================================================%
+
+
+\documentclass[12pt]{article}
+
+\usepackage[english]{babel}
+
+\usepackage{subcaption}
+
+\usepackage{gensymb}
+
+\usepackage{setspace}
+\onehalfspacing
+
+\usepackage[
+    a4paper,
+    top=2cm,
+    bottom=2cm,
+    left=2cm,
+    right=2cm,
+    marginparwidth=1.75cm
+]{geometry}
+
+\usepackage[skip=8pt plus1pt, indent=20pt]{parskip}
+
+% inserting images
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{{images/}}
+
+% references
+\usepackage{csquotes}
+\usepackage[
+    backend=biber,
+    style=numeric-comp,
+    sorting=none
+]{biblatex}
+\addbibresource{references.bib}
+
+
+% math
+\usepackage{amsmath}
+\usepackage{empheq}
+
+% tables
+\usepackage{booktabs}
+
+% color
+\usepackage{xcolor}
+
+% dummy text
+\usepackage{lipsum}
+
+
+%=====================================================================%
+% DOCUMENT
+%=====================================================================%
+\setlength{\parindent}{0pt} 
+
+
+\begin{document}
+
+%=====================================================================%
+% TITLE PAGE
+%=====================================================================%
+
+\begin{titlepage}
+
+\centering
+\singlespacing
+
+% ------------------------------------------------
+% UNIVERSITY LOGO
+% ------------------------------------------------
+\includegraphics[width=0.70\textwidth]{bmelogo.png}
+
+\vspace{0.4cm}
+
+{\Large\bfseries
+Budapest University of Technology and Economics\par}
+
+\vspace{0.15cm}
+
+{\Large Faculty of Natural Sciences\par}
+
+% ------------------------------------------------
+% TITLE
+% ------------------------------------------------
+
+\vspace{3.3cm}
+
+{\LARGE\bfseries
+M4 - Digital circuits \\
+\par}
+
+\vspace{0.3cm}
+
+{\Large Lab report\par}
+
+% ------------------------------------------------
+% DATE
+% ------------------------------------------------
+
+\vspace{2.6cm}
+
+{\Large 18/11/2026\par}
+
+% ------------------------------------------------
+% LAB RESPONSIBLE
+% ------------------------------------------------
+
+\vspace{2.5cm}
+
+{\Large
+\underline{Lab responsible}\\[-0.05cm]
+\textbf{Viktor Farkas}
+\par}
+
+% ------------------------------------------------
+% STUDENTS
+% ------------------------------------------------
+
+\vfill
+
+\begin{minipage}[t]{0.47\textwidth}
+    \centering
+
+    {\Large {Student}\par}
+
+    \vspace{0.1cm}
+
+    {\bfseries
+    Abigél ORTUTAY (UGHRKC)\par}
+     {\normalsize
+    Physics-engineering BSc 3rd year\par}
+    {\normalsize
+    abico.ortutay@gmail.com}
+    
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.47\textwidth}
+    \centering
+
+    {\Large {Student}\par}
+   
+
+    \vspace{0.1cm}
+
+    {\bfseries
+    Hanna ERTL (SPH4U7)\par}
+    {\normalsize
+    Physics-engineering BSc 3rd year\par}
+    {\normalsize
+    hannavedaertl@gmail.com}
+    
+    
+\end{minipage}
+
+\vspace{1.3cm}
+
+\end{titlepage}
+
+
+%=====================================================================%
+% REPORT STARTS HERE
+%=====================================================================%
+\begin{abstract}
+    \noindent
+\end{abstract}
+
+\section{Theoretical introduction}
+Digital circuits implement logical relationships that form the foundation of computing, 
+instrumentation, and automated control systems. They are built from logic gates using binary 
+logic, 0 for "no" in the false state, and 1 for "yes" in the true state. In semiconductor integrated
+circuits (ICs) this logic gate is implemented in two ways using bipolar or MOS transistors: 
+Transistor - Transistor Logic (TTL) and Complementary Metal-Oxide Semiconductor (CMOS).
+
+For the real world application of these circuits - for example in the measurement we completed in 
+this laboratory exercise - the voltages below approximately 0.8 V represent the false state (low logic), 
+while voltages above approximately 2.4 V represent true state (high logic).
+
+Sequential networks can be used to implement time dependent logic circuits, where the output doesn't depend 
+only on the instantaneous input, but also on the past internal states. The two types of sequential networks are: 
+asynchronous networks and synchronous networks. Asynchronous networks have instantaneous change in their output 
+when the input changes, and synchronous networks use an enabling clock signal to read the input.
+
+Flip-flops are used to compose sequential circuits, these serve as 1-bit primary memory components. The different 
+types of flip-flops are:
+\begin{itemize}
+\item RS flip-flop: with set (S) and reset (R) pins. The S = 1, R = 1 combination is forbidden, as we cannot 
+set and reset at the same time.
+\item JK flip-flop: to solve the issue of the forbidden state of the RS flip-flop the output of the JK flip-flop 
+toggles to Q negate when J = 1, K = 1 is detected. This flip-flop is synchronous, with a clock signal input 
+pin as well.
+\item T flip-flop: By connecting the J and K pins of the JK fip-flop together we get a configuration of two 
+input pins of T (toggle) and a clock signal.
+\item D flip-flop: this configuration introduces a time delay (D) using a control signal between the input 
+and the output signal of the flip-flop.
+\end{itemize}
+
+Utilising flip-flop units we can form counter circuits of synchronous and asynchronous kind. In a asynchronous 
+counter the connected flip-flops are driven sequentially after each other, the next flip flop receives its triggering 
+signal from the previous flip-flop in the arrangement; hence, their operation does not occur at the same time. 
+In synchronous counters they receive the triggering signal simultaneously, which causes them to toggle at the same 
+instant. Counting up, down, or up and down depends on storage and addition, since each flip-flop can store 1 binary bit, a composition of 
+$n$ flip-flops can store $2^n$ bits. When a counter reaches its maximum capacity, it resets, continuing the pulse 
+count from the beginning. The pulse count can be encoded in binary, decimal, Gray code, and Johnson code.
+
+The three output types of a digital circuit can be the following: totem-pole output, open-collector output (OC), 
+and three-state output. Totem-pole outputs allow for high and low levels, building on this the three-state output 
+also has a high impedance output where both internal switches are switched off. The open-collector output uses 
+an active switch to pull the output down to the low level, requiring an external pull up resistor to pull the 
+output up to the high level. Real life applications introduce dynamic performance limitations of: propegation delay, 
+rise and fall time, pulse duration (width), as well as strict temporal rules to follow such as the setup time, and 
+the hold time. 
+
+\section{Measurement tools}
+For this measurement, we used the following list of tools:
+\begin{itemize}
+\item TI SN74LS00 PC 8451 Logic Gate
+\item SIGLENT SPD3303C Programmable DC Power Supply
+\item HAMEG HM 8011-3 Digital multimeter
+\item SIGLENT SDS 1072CML Digital storage oscilloscope
+\item SN74LS390 BCD Counter
+\item HDSP5731 7-segment display
+\item Banana cables (4 pieces)
+\item Crocodile clips (4 pieces)
+\item Jumping wires (20 pieces)
+\item 270 k$\Omega$ resistor (7 pieces)
+\end{itemize}
+
+\newpage \section{Measurement setup}
+
+\pagebreak\section{Measurements}
+
+\subsection{Examination of a logic gate (black-box measurement)}
+
+\subsection{Examination of a BCD counter (SN74HCT390)}
+
+\section{Conclusion}
+
+\nocite{*}
+\printbibliography 
+\end{document}
